@@ -1,0 +1,67 @@
+/*UI paginator*/
+
+.ui-paginator .ui-paginator-first, .ui-paginator .ui-paginator-prev, .ui-paginator .ui-paginator-pages .ui-paginator-page, .ui-paginator .ui-paginator-next, .ui-paginator .ui-paginator-last, .ui-paginator .ui-paginator-rpp-options {
+  color: #546e7a;
+  font-size: 1em;
+  padding: 0px 3px !important;
+}
+.ui-paginator {
+  background-color: #dae8ef;
+  border: solid 1px #c1d5df;
+}
+.ui-paginator .ui-state-active, .ui-paginator .ui-paginator-pages .ui-state-active {
+  color: #546e7a !important;
+  border-bottom: solid 3px #546e7a;
+  ;
+}
+
+/*UI data table*/
+
+.ui-datatable .ui-column-filter {
+  margin-top: 0px;
+  font-size: 1em;
+}
+.ui-datatable table thead tr th, .ui-datatable table tfoot tr td, .ui-datatable table thead tr th {
+  font-size: 1em;
+}
+.ui-datatable table tbody td {
+  padding: 4px 10px !important;
+}
+
+/*Button*/
+
+.ui-button, .ui-datepicker-buttonpane button {
+  font-size: 12px;
+}
+
+/*Command hyperlink*/
+
+.ui-widget-content a {
+  color: #0288d1;
+  cursor: pointer !important;
+}
+
+.ui-selectbutton .ui-button, .ui-selectbutton .ui-button .ui-button-text {
+  -webkit-border-radius: 100px !important;
+  width: 50px;
+  padding: 9px 0px !important;
+}
+.ui-selectbutton .ui-button {
+  background-color: #E0E0E0;
+  color: #000000;
+}
+.MyGreen .ui-selectbutton .ui-button.ui-state-active {
+  background-color: #66BB6A;
+}
+.MyRed .ui-selectbutton .ui-button.ui-state-active {
+  background-color: #E53935;
+}
+
+.Card {
+    padding: 10px;
+}
+
+textarea.ui-inputtext {
+    border-radius: 5px;
+    border: 1px solid #b0bec5 !important;
+}

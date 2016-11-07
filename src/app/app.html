@@ -1,0 +1,48 @@
+<!--as-navbar [routes]="appRoutes" [brand]="appBrand" *ngIf="userLoggedIn()"></as-navbar-->
+
+<div [hidden]="!userLoggedIn()">
+  <!-- TOPBAR START -->
+  <div id="layout-topbar">
+    <a id="mobile-menu-button">
+      <span class="ButtonLine" id="ButtonLine1"></span>
+      <span class="ButtonLine" id="ButtonLine2"></span>
+      <span class="ButtonLine" id="ButtonLine3"></span>
+    </a>
+    <a [routerLink]="['/']" id="logo">
+      <img src="assets/images/ng2.png" alt="EntityModelUI" style="height: 40px;  margin: 0px 0px 0px 0px;" class="Fleft" />
+    </a>
+
+    <a [routerLink]="['/alerts']" id="show-top-menu" class="ripplelink"><i class="icon-notifications_active"></i></a>
+
+
+  </div>
+  <!-- TOPBAR END -->
+</div>
+
+
+<div id="wrapper">
+  <div id="wrapperIndent">
+
+    <div class="Animated05" id="layout-menu-cover">
+      <ul id="menu" class="layout-menu ShadowEffect modena-menu">
+        <li role="menuitem"><a class="menulink ripplelink" [routerLink]="['/']"><i class="icon-null"></i><i class="fa fa-home"></i>Home</a></li>
+        <!--li role="menuitem"><a class="menulink ripplelink" [routerLink]="['/audit']"><i class="icon-null"></i><i class="fa fa-cube"></i>Audit</a></li>
+        <li role="menuitem"><a class="menulink ripplelink" [routerLink]="['/parent']"><i class="icon-null"></i><i class="fa fa-cube"></i>Parent</a></li-->
+        <li role="menuitem"><a class="menulink ripplelink" (click)="cleanup()" target="_blank"><i class="icon-null"></i><i class="fa fa-times"></i>Reset Data</a></li>
+        <li role="menuitem"><a class="menulink ripplelink" (click)="logout()" target="_blank"><i class="icon-null"></i><i class="fa fa-power-off"></i>Logout</a></li>
+        <li class="Separator"></li>
+      </ul>
+    </div>
+
+    <div id="layout-portlets-cover" style="padding: 70px 0% 20px;">
+      <div class="Container96 Fnone MarAuto">
+
+
+        <router-outlet></router-outlet>
+
+
+
+      </div>
+    </div>
+  </div>
+</div>

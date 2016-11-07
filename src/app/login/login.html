@@ -1,0 +1,17 @@
+<div class="login">
+	<div class="row"><img style="    max-width: 250px;    max-height: 200px;" src="assets/images/ng2.png" alt="EntityModelUI"></div>
+	<div class="row TexAlCenter">
+			<p-messages [value]="msgs"></p-messages>
+	</div>
+	<div class="Container100 Responsive100">
+		<div class="row marginTop10">
+			<input id="username" type="text" placeholder="Username" (keyup.enter)="login()" size="30" pInputText [(ngModel)]="name" />
+		</div>
+		<div class="row marginTop10">
+			<input id="password" size="30" pInputText type="password" (keyup.enter)="login()" [(ngModel)]="password" placeholder="Password" />
+		</div>
+		<div class="row marginTop10">
+			<button id="Login" pButton type="button" (click)="login()" icon="fa-sign-in" label="Log in"></button>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,244 @@
+<p-menubar [model]="items"></p-menubar>
+<div class="Card ShadowEffect">
+	<div *ngIf="!selectedAudit">
+		<p-tabView>
+			<p-tabPanel header="Pending">
+				<div class="EmptyBox10"></div>
+				<h2 class="CardTopic Fs22" style="font-weight:bold; padding-bottom: 0px;">
+					<i class="fa fa-report" ></i>
+					<span> Not Submitted Audit Entries </span><div class="EmptyBox5"></div>
+					<span class="FontRobotoLight Fs14" style="font-weight: normal;"> Click uplaod to sync the pending audits to the server </span>
+					<div class="EmptyBox10"></div>
+				</h2>
+				<p-dataTable *ngIf="!selectedAudit" [value]="audits" [rows]="10" [paginator]="true" [pageLinks]="3" [globalFilter]="gb" [responsive]="true">
+					<p-column field="crn" header="Cabinet" [filter]="true" filterMatchMode="contains" [sortable]="true"></p-column>
+					<p-column field="name" header="Auditor" [filter]="true" filterMatchMode="contains" [sortable]="true"></p-column>
+					<p-column field="timestamp" header="Date" [filter]="true" filterMatchMode="contains" [sortable]="true"></p-column>
+					<p-column field="email" header="Email" [filter]="true" filterMatchMode="contains" [sortable]="true"></p-column>
+					<p-column styleClass="col-icon">
+						<template let-entry="rowData">
+							<button type="button" (click)="syncAudit(entry)" pButton icon="fa fa-upload" class="RaisedButton"></button>
+							<button type="button" (click)="editAudit(entry)" pButton icon="fa fa-edit" class="RaisedButton"></button>
+							<button type="button" (click)="editAudit(entry)" disabled="true" pButton icon="fa fa-download" class="RaisedButton"></button>
+							<button type="button" (click)="removeAudit(entry)" pButton icon="fa fa-trash Red" class="GrayButton RaisedButton"></button>
+						</template>
+					</p-column>
+				</p-dataTable>
+				<div class="EmptyBox20"></div>
+
+			</p-tabPanel>
+
+			<p-tabPanel header="History">
+				<div class="EmptyBox10"></div>
+				<h2 class="CardTopic Fs22" style="font-weight:bold; padding-bottom: 0px;">
+			<i class="fa fa-report" ></i>
+			<span> Recent Audit Entries </span>
+			<div class="EmptyBox10"></div>
+		</h2>
+				<p-dataTable *ngIf="!selectedAudit" [value]="history" [rows]="10" [paginator]="true" [pageLinks]="3" [globalFilter]="gb" [responsive]="true">
+					<p-column field="crn" header="Cabinet" [filter]="true" filterMatchMode="contains" [sortable]="true"></p-column>
+					<p-column field="name" header="Auditor" [filter]="true" filterMatchMode="contains" [sortable]="true"></p-column>
+					<p-column field="timestamp" header="Date" [filter]="true" filterMatchMode="contains" [sortable]="true"></p-column>
+					<p-column field="email" header="Email" [filter]="true" filterMatchMode="contains" [sortable]="true"></p-column>
+					<p-column styleClass="col-icon">
+						<template let-entry="rowData">
+							<button type="button" (click)="editAudit(entry)" pButton icon="fa fa-edit" class="RaisedButton"></button>
+							<button type="button" (click)="editAudit(entry)" disabled="true" pButton icon="fa fa-download" class="RaisedButton"></button>
+						</template>
+					</p-column>
+				</p-dataTable>
+				<div class="EmptyBox20"></div>
+
+			</p-tabPanel>
+
+		</p-tabView>
+	</div>
+	<div *ngIf="selectedAudit">
+		<h2 class="CardTopic Fs22" style="font-weight:bold; padding-bottom: 0px;">
+			<i class="fa fa-report" ></i>New Audit Entry
+			<div class="EmptyBox10"></div>
+		</h2>
+		<p-tabView>
+			<p-tabPanel header="Details">
+				<div class="EmptyBox10"></div>
+				<div class="Container50 Responsive100">
+					<div class="Container25 Responsive100 FontRobotoLight">Cabinet ID: </div>
+					<input id="in1" type="text" size="30" pInputText [(ngModel)]="selectedAudit.crn" />
+					<div class="EmptyBox20"></div>
+					<div class="Container25 Responsive100 FontRobotoLight">Auditor Name: </div>
+					<input id="in1" type="text" size="30" pInputText [(ngModel)]="selectedAudit.name" />
+					<div class="EmptyBox20"></div>
+				</div>
+				<div class="Container50 Responsive100">
+					<div class="Container25 Responsive100 FontRobotoLight">Audit Date: </div>
+					<div class="Container75">
+						<p-calendar [(ngModel)]="selectedAudit.timestamp" showAnim="slideDown" [showIcon]="true" [monthNavigator]="true" [yearNavigator]="true" dateFormat="mm/dd/yy" timeFormat="hh:mm tt z" timeControlType="select" [horizontalTimeControls]="true"></p-calendar>
+					</div>
+					<div class="EmptyBox20"></div>
+					<div class="Container25 Responsive100 FontRobotoLight">Email ID: </div>
+					<input id="in1" type="text" size="30" pInputText [(ngModel)]="selectedAudit.email" />
+					<div class="EmptyBox20"></div>
+				</div>
+				<div class="EmptyBox10"></div>
+			</p-tabPanel>
+
+			<p-tabPanel header="Checklist">
+				<div class="EmptyBox10"></div>
+				<div class="Container50 Responsive100">
+					<div style="width: 60%; float:left; margin-top:10px;"> Cabinet Light Working?
+						<!--div class="Fs12 FontRobotoLight"> Check if the cabinaet light is in working condition </div-->
+					</div>
+					<div class="Fright" [class.MyGreen]="selectedAudit.CabinetLightWorking==='Yes'" [class.MyRed]="selectedAudit.CabinetLightWorking==='No'">
+						<p-selectButton [options]="yesno" [(ngModel)]="selectedAudit.CabinetLightWorking"></p-selectButton>
+					</div>
+					<div class="EmptyBox10"></div>
+
+					<div style="width: 60%; float:left; margin-top:10px;">
+						Cabinet Structurally Sound?
+					</div>
+					<div class="Fright" [class.MyGreen]="selectedAudit.CabinetStructurallySound==='Yes'" [class.MyRed]="selectedAudit.CabinetStructurallySound==='No'">
+						<p-selectButton [options]="yesno" [(ngModel)]="selectedAudit.CabinetStructurallySound"></p-selectButton>
+					</div>
+					<div class="EmptyBox10"></div>
+
+					<div style="width: 60%; float:left; margin-top:10px;">
+						Dial Tone Present?
+					</div>
+					<div class="Fright" [class.MyGreen]="selectedAudit.DialTonePresent==='Yes'" [class.MyRed]="selectedAudit.DialTonePresent==='No'">
+						<p-selectButton [options]="yesno" [(ngModel)]="selectedAudit.DialTonePresent"></p-selectButton>
+					</div>
+					<div class="EmptyBox10"></div>
+
+					<div style="width: 60%; float:left; margin-top:10px;">
+						Handset in Good Condition and Not Damaged?
+					</div>
+					<div class="Fright" [class.MyGreen]="selectedAudit.HandsetGoodCondNotDamaged==='Yes'" [class.MyRed]="selectedAudit.HandsetGoodCondNotDamaged==='No'">
+						<p-selectButton [options]="yesno" [(ngModel)]="selectedAudit.HandsetGoodCondNotDamaged"></p-selectButton>
+					</div>
+					<div class="EmptyBox10"></div>
+
+					<div style="width: 60%; float:left; margin-top:10px;">
+						Follow On Button Working?
+					</div>
+					<div class="Fright" [class.MyGreen]="selectedAudit.FollowOnButtonworking==='Yes'" [class.MyRed]="selectedAudit.FollowOnButtonworking==='No'">
+						<p-selectButton [options]="yesno" [(ngModel)]="selectedAudit.FollowOnButtonworking"></p-selectButton>
+					</div>
+					<div class="EmptyBox10"></div>
+
+					<div style="width: 60%; float:left; margin-top:10px;">
+						LCD Display Working Correctly?
+					</div>
+					<div class="Fright" [class.MyGreen]="selectedAudit.LcdDisplayWorkingCorrectly==='Yes'" [class.MyRed]="selectedAudit.LcdDisplayWorkingCorrectly==='No'">
+						<p-selectButton [options]="yesno" [(ngModel)]="selectedAudit.LcdDisplayWorkingCorrectly"></p-selectButton>
+					</div>
+					<div class="EmptyBox10"></div>
+
+					<div style="width: 60%; float:left; margin-top:10px;">
+						Refund Chute Working, No Damage?
+					</div>
+					<div class="Fright" [class.MyGreen]="selectedAudit.RefundChuteWorkingNoDamage==='Yes'" [class.MyRed]="selectedAudit.RefundChuteWorkingNoDamage==='No'">
+						<p-selectButton [options]="yesno" [(ngModel)]="selectedAudit.RefundChuteWorkingNoDamage"></p-selectButton>
+					</div>
+					<div class="EmptyBox10"></div>
+
+					<div style="width: 60%; float:left; margin-top:10px;">
+						Any Grafitti on the PayPhone?
+					</div>
+					<div class="Fright" [class.MyGreen]="selectedAudit.AnyGrafittiOnPayPhone==='Yes'" [class.MyRed]="selectedAudit.AnyGrafittiOnPayPhone==='No'">
+						<p-selectButton [options]="yesno" [(ngModel)]="selectedAudit.AnyGrafittiOnPayPhone"></p-selectButton>
+					</div>
+					<div class="EmptyBox10"></div>
+
+					<div style="width: 60%; float:left; margin-top:10px;">
+						Payphone and Booth overall rating:
+						<span style="font-weight: bold;">{{selectedAudit.rating}}</span>
+					</div>
+					<div class="Fright">
+						<p-rating [(ngModel)]="selectedAudit.rating" [cancel]="false" stars="10"></p-rating>
+					</div>
+					<div class="EmptyBox10"></div>
+
+					<div style="width: 100%; float:left; margin-top:10px;"> Comment: </div>
+					<textarea rows="5" cols="30" pInputTextarea [(ngModel)]="selectedAudit.comment"></textarea>
+					<div class="EmptyBox10"></div>
+
+				</div>
+				<div class="EmptyBox10"></div>
+			</p-tabPanel>
+
+
+			<p-tabPanel header="Photos">
+				<div class="Container50 Responsive100">
+					<h2 class="CardTopic Fs20" style="font-weight:bold; padding-bottom: 0px;">
+						<div class="EmptyBox10"></div>
+						<i class="fa fa-cube" ></i> Comments / Actions
+						<span class="Fright">
+							<script>
+							 $('#uploadbutton').click(function(){
+							    $('input[type=file]').click();
+							 });
+							 </script>
+							<button id="uploadbutton" type="button" (click)="uploadButtonClick()" pButton icon="fa fa-upload" label="Add Photo" class="RaisedButton"
+							[disabled]="checkNoofFiles()"></button>
+							<input type="file" id="upload" style="display:none;" (change)="photoSelected($event)">
+						</span>
+					</h2>
+				</div>
+				<div class="EmptyBox10"></div>
+				<div class="Container50 Responsive100">
+					<p-dataTable [value]="selectedAudit.files" [rows]="10" [paginator]="true" [pageLinks]="3" [globalFilter]="gb" [responsive]="true">
+						<p-column field="name" header="Name" [filter]="true" filterMatchMode="contains" [sortable]="true"></p-column>
+						<p-column field="size" header="Size" [filter]="true" filterMatchMode="contains" [sortable]="true"></p-column>
+						<p-column styleClass="col-button">
+							<template let-entry="rowData">
+								<img [src]="entry.src" alt="" style="max-width: 100px;max-height: 100px;" (click)="downloadFile(entry)" />
+							</template>
+						</p-column>
+						<p-column styleClass="col-button">
+							<template let-entry="rowData">
+								<button type="button" (click)="downloadFile(entry)" pButton icon="fa fa-download" class="RaisedButton"></button>
+								<button type="button" (click)="removeFile(entry)" pButton icon="fa fa-trash Red" class="GrayButton RaisedButton"></button>
+							</template>
+						</p-column>
+					</p-dataTable>
+					<div class="EmptyBox10"></div>
+				</div>
+
+				<div class="Container50 Responsive100" *ngIf="selectedGrowthUpdate">
+					<div class="ContainerIndent">
+						<h2 class="CardTopic Fs18" style="font-weight:bold; padding-bottom: 0px;">
+							<div class="EmptyBox10"></div>
+							<i class="fa fa-cube" ></i> Comment/Action - {{selectedGrowthUpdate.timestamp}}
+							<div class="EmptyBox10"></div>
+						</h2>
+						<div class="Separator"></div>
+						<div class="EmptyBox20"></div>
+						<div class="Container50 Responsive100">
+							<div class="Container25">Date*: </div>
+							<div class="Container75">
+								<p-calendar [(ngModel)]="selectedGrowthUpdate.timestamp" showAnim="slideDown" [showIcon]="true" [monthNavigator]="true" [yearNavigator]="true"></p-calendar>
+							</div>
+							<div class="EmptyBox5"></div>
+							<div class="Container25">Author: </div>
+							<input id="in1" type="text" size="30" pInputText [(ngModel)]="selectedGrowthUpdate.height" />
+							<div class="EmptyBox5"></div>
+						</div>
+						<div class="Container50 Responsive100">
+							<div class="Container25">Summary: </div>
+							<input id="in1" type="text" size="30" pInputText [(ngModel)]="selectedGrowthUpdate.weight" />
+							<div class="EmptyBox5"></div>
+							<div class="Container25">Description: </div>
+							<input id="in1" type="text" size="30" pInputText [(ngModel)]="selectedGrowthUpdate.headSize" />
+							<div class="EmptyBox5"></div>
+						</div>
+						<div class="EmptyBox10"></div>
+					</div>
+				</div>
+
+				<div class="EmptyBox10"></div>
+			</p-tabPanel>
+
+		</p-tabView>
+	</div>
+</div>
+<div class="EmptyBox10"></div>
